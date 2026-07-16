@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <style>body{margin:0;background:#888} canvas{display:block}</style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    window.__renderState = 'loading';
+    window.__pageCount = 0;
+    let pdfDoc = null;
+    async function load() {
+      pdfDoc = await pdfjsLib.getDocument('pdf/paper.pdf').promise;
+      window.pdfDoc = pdfDoc;
+      window.__pageCount = pdfDoc.numPages;
+      window.__renderState = 'ready';
+    }
+    window.renderPage = async function (pageNum, scale) {
+      window.__renderState = 'rendering';
+      const page = await pdfDoc.getPage(pageNum);
+      const viewport = page.getViewport({ scale: scale });
+      const canvas = document.getElementById('c');
+      const ctx = canvas.getContext('2d');
+      canvas.width = viewport.width; canvas.height = viewport.height;
+      await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+      window.__dims = { w: canvas.width, h: canvas.height };
+      window.__renderState = 'done';
+      return window.__dims;
+    };
+    window.cropCurrent = function (x0, y0, x1, y1, quality) {
+      const src = document.getElementById('c');
+      const sx = Math.floor(x0 * src.width), sy = Math.floor(y0 * src.height);
+      const sw = Math.ceil((x1 - x0) * src.width), sh = Math.ceil((y1 - y0) * src.height);
+      const out = document.createElement('canvas'); out.width = sw; out.height = sh;
+      const octx = out.getContext('2d');
+      octx.fillStyle = '#ffffff'; octx.fillRect(0, 0, sw, sh);
+      octx.drawImage(src, sx, sy, sw, sh, 0, 0, sw, sh);
+      return out.toDataURL('image/jpeg', quality || 0.92);
+    };
+    load();
+  </script>
+</body>
+</html>
