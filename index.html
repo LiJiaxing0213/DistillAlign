@@ -205,12 +205,12 @@
     .exp-label { font-size: .74rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); margin: 22px 0 10px; }
 
     /* Two-column figure+table inside a card */
-    .split { display: grid; grid-template-columns: 1.1fr .9fr; gap: 26px; align-items: center; }
-    @media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
+    .split { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 26px; align-items: center; }
+    @media (max-width: 860px) { .split { grid-template-columns: minmax(0, 1fr); } }
     .split img { width: 100%; height: auto; display: block; border-radius: 10px; border: 1px solid var(--line); }
 
     /* Data tables */
-    .table-scroll { overflow-x: auto; }
+    .table-scroll { overflow-x: auto; min-width: 0; -webkit-overflow-scrolling: touch; }
     table.dtable { border-collapse: collapse; width: 100%; font-size: .88rem; margin: 0 auto; }
     table.dtable th, table.dtable td { padding: 8px 12px; text-align: center; white-space: nowrap; }
     table.dtable thead th { border-bottom: 2px solid var(--line-strong); color: var(--ink); font-weight: 700; }
@@ -237,7 +237,7 @@
     .qual-block h3 { font-size: 1.1rem; font-weight: 700; margin: 0 0 4px; }
     .qual-block p.sub { color: var(--ink-faint); font-size: .88rem; margin: 0 0 12px; }
     .vgrid { margin: 8px auto 0; }
-    .vcols { display: grid; grid-template-columns: repeat(5, 1fr); margin-bottom: 6px; }
+    .vcols { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin-bottom: 6px; }
     .vcols span { text-align: center; font-size: .78rem; font-weight: 700; color: var(--ink-soft); letter-spacing: -.01em; }
     .vstack { display: flex; flex-direction: column; gap: 10px; }
     .vstack video { width: 100%; display: block; border-radius: 10px; border: 1px solid var(--line); background: #000; }
@@ -257,6 +257,23 @@
     }
 
     footer.site { padding: 40px 0; border-top: 1px solid var(--line); text-align: center; color: var(--ink-faint); font-size: .88rem; }
+
+    /* ── Mobile refinements ── */
+    body { overflow-x: hidden; }
+    @media (max-width: 760px) {
+      .wrap { padding: 0 16px; }
+      section { padding: 44px 0; }
+      .card { padding: 20px 18px; }
+      .card > h3 { font-size: 1.18rem; }
+      .claim { font-size: 1rem; }
+      /* widths tuned for desktop must not shrink figures/formulas/videos on phones */
+      [data-tune] { max-width: 100% !important; margin-left: auto !important; margin-right: auto !important; }
+      .math-block { font-size: .58em; padding: 6px 10px; }
+      .vcols span { font-size: .56rem; letter-spacing: 0; }
+      .split { gap: 18px; }
+      pre.cite { font-size: .72rem; }
+      .authors { font-size: .95rem; }
+    }
   </style>
 </head>
 
