@@ -302,20 +302,20 @@
 
       <div class="authors">
         <span><strong>Jiaxing Li</strong><sup>1,2*</sup>,</span>
-        <span><strong>Kai Zou</strong><sup>1,3*</sup>,</span>
-        <span><strong>Kaichen Huang</strong><sup>2</sup>,</span>
-        <span><strong>Junyao Gao</strong><sup>4</sup>,</span>
+        <span><strong>Kai Zou</strong><sup>1*</sup>,</span>
+        <span><strong>Cindy Zhou</strong><sup>1,3</sup>,</span>
+        <span><strong>Kaichen Huang</strong><sup>1,2</sup>,</span>
         <span><strong>Zile Wang</strong><sup>1</sup>,</span>
+        <span><strong>Junyao Gao</strong><sup>1</sup>,</span>
         <span><strong>Yang Liu</strong><sup>1</sup>,</span>
-        <span><strong>Bin Liu</strong><sup>3</sup>,</span>
+        <span><strong>Bin Liu</strong><sup>1</sup>,</span>
         <span><strong>Bo An</strong><sup>2</sup>,</span>
         <span><strong>Yangguang Li</strong><sup>1†</sup></span>
       </div>
       <p class="affil">
         <sup>1</sup>Riemann Dynamics &nbsp;·&nbsp;
         <sup>2</sup>Nanyang Technological University &nbsp;·&nbsp;
-        <sup>3</sup>University of Science and Technology of China &nbsp;·&nbsp;
-        <sup>4</sup>Tongji University
+        <sup>3</sup>Wellington College, UK
       </p>
       <p class="notes"><sup>*</sup>Equal contribution.&nbsp;&nbsp;<sup>†</sup>Corresponding author.</p>
 
@@ -343,23 +343,24 @@
       <h2 class="section-title">Abstract</h2>
       <div class="prose">
         <p>
-          Recent autoregressive video generation methods commonly distill bidirectional video diffusion models into
-          few-step causal generators. However, existing multi-stage pipelines often <strong>decouple pre-DMD
-          initialization from DMD refinement</strong>, and judge initialization mainly by visual scores such as VBench.
-          In this paper, we revisit this design from a distributional perspective. ODE/CD-style initialization mainly
-          provides <strong>mode coverage</strong>, whereas DMD behaves as <strong>mode-seeking</strong> refinement. Thus,
-          a good initialization is not merely one with high visual quality, but one that provides <strong>matched mode
-          coverage</strong> for the target DMD teacher.
+          Existing multi-stage distillation pipelines often <strong>decouple pre-DMD initialization from DMD
+          refinement</strong>: the initialization is trained to match base-model trajectories or external video data,
+          whereas DMD refines toward a separate—often stronger—diffusion teacher, so the two stages implicitly pursue
+          different target distributions, with initialization quality judged mainly by visual scores such as VBench. We
+          revisit this from a distributional perspective: pre-DMD initialization is <strong>mode-covering</strong> and
+          fixes which teacher modes are available, while DMD is <strong>mode-seeking</strong> and only redistributes mass
+          within that support. A good initialization is thus one whose coverage <strong>matches the target DMD
+          teacher</strong>, rather than one that merely looks sharp.
         </p>
         <p>
-          To analyze this effect, we introduce a distributional evaluation protocol that measures <strong>precision and
+          To analyze this, we introduce a distributional evaluation protocol that measures <strong>precision and
           coverage</strong> between student and teacher distributions in a shared latent feature space, revealing
-          differences hidden by visual scores. Furthermore, even under aligned targets, pure DMD can still
-          <strong>drift toward high-probability teacher regions</strong> in late training, reducing coverage and
-          diversity. To address this, we propose <strong>joint distillation</strong>, which combines DMD's mode-seeking
-          objective with CD's mode-covering constraint. Notably, even with Wan-1.3B as the DMD teacher, our method
-          outperforms baselines refined with Wan-14B, highlighting the importance of distributional alignment in
-          autoregressive video distillation.
+          differences hidden by visual scores. Furthermore, even when target distributions are aligned, pure DMD can
+          still <strong>drift toward high-probability teacher regions</strong> in late training, reducing coverage and
+          diversity. To address this, we propose <strong>joint distillation</strong>, combining DMD's mode-seeking
+          objective with CD's mode-covering constraint. Notably, even with a Wan-1.3B DMD teacher, our method outperforms
+          baselines refined with Wan-14B, highlighting the value of the distributional perspective in autoregressive
+          video distillation.
         </p>
       </div>
     </div>
@@ -440,7 +441,7 @@
                   <tr><th>Init. Target</th><th>DMD Teacher</th><th>Matched</th><th>VBench&nbsp;↑</th><th>Coverage&nbsp;↑</th></tr>
                 </thead>
                 <tbody>
-                  <tr><td>Wan-14B</td><td>Wan-14B</td><td class="yes">✓</td><td class="best">84.74</td><td class="best">0.664</td></tr>
+                  <tr><td>Wan-14B</td><td>Wan-14B</td><td class="yes">✓</td><td class="best">84.74</td><td class="best">0.648</td></tr>
                   <tr><td>Wan-1.3B</td><td>Wan-1.3B</td><td class="yes">✓</td><td>84.50</td><td>0.516</td></tr>
                   <tr><td>Wan-14B</td><td>Wan-1.3B</td><td class="no">✗</td><td>84.16</td><td>0.503</td></tr>
                   <tr><td>Wan-1.3B</td><td>Wan-14B</td><td class="no">✗</td><td>83.89</td><td>0.453</td></tr>
@@ -494,8 +495,8 @@
                   <tr><th>Step</th><th>0</th><th>500</th><th>1000</th><th>1500</th><th>2500</th></tr>
                 </thead>
                 <tbody>
-                  <tr><td class="name">VBench&nbsp;↑</td><td>82.60</td><td>84.44</td><td class="best">84.78</td><td>84.21</td><td>83.90</td></tr>
-                  <tr><td class="name">Diversity&nbsp;↑</td><td class="best">1.319</td><td>1.297</td><td>1.296</td><td>1.285</td><td>1.271</td></tr>
+                  <tr><td class="name">VBench&nbsp;↑</td><td>82.60</td><td>84.44</td><td class="best">84.74</td><td>84.21</td><td>83.90</td></tr>
+                  <tr><td class="name">Diversity&nbsp;↑</td><td class="best">1.319</td><td>1.297</td><td>1.292</td><td>1.285</td><td>1.272</td></tr>
                 </tbody>
               </table>
             </div>
@@ -565,11 +566,11 @@
           <tbody>
             <tr><td class="name">LTX Video</td><td>–</td><td>81.37</td><td>–</td><td>–</td><td>1.281</td></tr>
             <tr><td class="name">Wan2.1-T2V-1.3B</td><td>–</td><td>83.56</td><td>–</td><td>–</td><td>1.334</td></tr>
-            <tr><td class="name">CausVid</td><td>Wan2.1-14B</td><td>83.03</td><td>0.512</td><td>0.207</td><td>1.223</td></tr>
-            <tr><td class="name">Self-Forcing</td><td>Wan2.1-14B</td><td>84.21</td><td>0.789</td><td>0.531</td><td>1.269</td></tr>
-            <tr><td class="name">Causal-Forcing</td><td>Wan2.1-14B</td><td>84.38</td><td>0.617</td><td>0.297</td><td>1.250</td></tr>
-            <tr class="ours"><td class="name">Ours (weak)</td><td>Wan2.1-1.3B</td><td>84.57</td><td>0.660</td><td>0.445</td><td>1.291</td></tr>
-            <tr class="ours"><td class="name">Ours (full)</td><td>Wan2.1-14B</td><td class="best">84.81</td><td>0.785</td><td class="best">0.684</td><td class="best">1.300</td></tr>
+            <tr><td class="name">CausVid</td><td>Wan2.1-14B</td><td>83.03</td><td>0.51</td><td>0.21</td><td>1.223</td></tr>
+            <tr><td class="name">Self-Forcing</td><td>Wan2.1-14B</td><td>84.21</td><td>0.78</td><td>0.53</td><td>1.269</td></tr>
+            <tr><td class="name">Causal-Forcing</td><td>Wan2.1-14B</td><td>84.38</td><td>0.61</td><td>0.29</td><td>1.250</td></tr>
+            <tr class="ours"><td class="name">Ours (weak)</td><td>Wan2.1-1.3B</td><td>84.54</td><td>0.77</td><td>0.59</td><td class="best">1.305</td></tr>
+            <tr class="ours"><td class="name">Ours (full)</td><td>Wan2.1-14B</td><td class="best">84.83</td><td class="best">0.79</td><td class="best">0.69</td><td>1.304</td></tr>
           </tbody>
         </table>
       </div>
