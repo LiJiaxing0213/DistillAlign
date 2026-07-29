@@ -1,0 +1,16 @@
+torch==2.5.1
+torchvision==0.20.1
+numpy==1.24.4
+transformers==5.7.0
+huggingface_hub[cli]
+diffusers==0.31.0
+opencv-python>=4.9.0.80
+pillow
+easydict
+ftfy
+einops
+omegaconf
+tqdm
+imageio
+imageio-ffmpeg
+av==13.1.0
