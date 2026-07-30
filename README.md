@@ -25,7 +25,7 @@
 <p align="center">
   <a href="https://lijiaxing0213.github.io/DistillAlign"><img src="https://img.shields.io/badge/Project-Page-1f6feb?style=flat-square" alt="Project Page"></a>
   &nbsp;&nbsp;
-  <a href="https://lijiaxing0213.github.io/DistillAlign/static/pdf/distillalign.pdf"><img src="https://img.shields.io/badge/Paper-PDF-b31b1b?style=flat-square" alt="Paper"></a>
+  <a href="https://arxiv.org/abs/2607.26811"><img src="https://img.shields.io/badge/Paper-PDF-b31b1b?style=flat-square" alt="Paper"></a>
   &nbsp;&nbsp;
   <a href="https://huggingface.co/LiJiaxing/DistillAlign"><img src="https://img.shields.io/badge/%F0%9F%A4%97-Models-ffcc4d?style=flat-square" alt="Hugging Face Models"></a>
   &nbsp;&nbsp;
@@ -239,10 +239,13 @@ If you find DistillAlign useful, please consider citing:
 
 ```bibtex
 @misc{li2026distillalign,
-  title        = {DistillAlign: Coordinating Mode Covering and Mode Seeking in Autoregressive Video Distillation},
-  author       = {Li, Jiaxing and Zou, Kai and Zhou, Cindy and Huang, Kaichen and Gao, Junyao and Wang, Zile and Liu, Yang and Liu, Bin and An, Bo and Li, Yangguang},
-  year         = {2026},
-  url          = {https://lijiaxing0213.github.io/DistillAlign}
+  title         = {DistillAlign: Coordinating Mode Covering and Mode Seeking in Autoregressive Video Distillation},
+  author        = {Li, Jiaxing and Zou, Kai and Zhou, Cindy and Huang, Kaichen and Gao, Junyao and Wang, Zile and Liu, Yang and Liu, Bin and An, Bo and Li, Yangguang},
+  year          = {2026},
+  eprint        = {2607.26811},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  url           = {https://arxiv.org/abs/2607.26811}
 }
 ```
 
